@@ -22,11 +22,6 @@ class apiController {
       console.log(dataStudent);
 
       for (const rowData of dataStudent) {
-        const courseScore = rowData.course_score_hk;
-        const conductScore = rowData.conduct_score;
-        const scoreD = rowData.score_d;
-        const scoreFail = rowData.score_fail;
-        const studentPosition = rowData.student_position;
         const msv = rowData.student_code;
         const year = rowData.year_code;
         const dobFormatted = moment(rowData.student_dob, dateFormat).toDate();
@@ -57,42 +52,11 @@ class apiController {
             score_fail: rowData.score_fail,
           },
         });
-        //xét khen thưởng
-        //   if (scoreFail == 0 && courseScore >= 3 && (conductScore == 'XS' || conductScore == 'Tốt')) {
-        //     if (courseScore >= 3.6 && conductScore == 'XS' && scoreD == 0) {
-        //       if (studentPosition == 1) {
-        //         const [awardInstance, awardCreated] = await db.Award.findOrCreate({
-        //           where: { student_code: msv, year_code: year },
-        //           defaults: { award_type: 'SVXS, SVCĐG' },
-        //         });
-        //       } else {
-        //         const [awardInstance, awardCreated] = await db.Award.findOrCreate({
-        //           where: { student_code: msv, year_code: year },
-        //           defaults: { award_type: 'SVXS' },
-        //         });
-        //       }
-        //     }
-
-        //     if (courseScore >= 3.2 && scoreD == 0) {
-        //       const [awardInstance, awardCreated] = await db.Award.findOrCreate({
-        //         where: { student_code: msv, year_code: year },
-        //         defaults: { award_type: 'SVG' },
-        //       });
-        //     }
-
-        //     if (courseScore >= 3.0 && conductScore == 'XS' && studentPosition == 1) {
-        //       const [awardInstance, awardCreated] = await db.Award.findOrCreate({
-        //         where: { student_code: msv, year_code: year },
-        //         defaults: { award_type: 'SVCĐG' },
-        //       });
-        //     }
-        //   }
-        // }
-        if (!scoreCreated) {
+        if (scoreCreated) {
           checkAward(rowData);
         }
-        res.status(200).json({ message: 'Data uploaded and saved' });
       }
+      res.status(200).json({ message: 'Data uploaded and saved' });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'An error occurred while processing data' });
