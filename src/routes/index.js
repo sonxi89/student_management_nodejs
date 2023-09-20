@@ -1,7 +1,7 @@
-const apiRoute = require('./api');
+const studentRoute = require('./student');
 
 function route(app) {
-  app.use('/', apiRoute);
+  app.use('/student', studentRoute);
 }
 
 module.exports = route;

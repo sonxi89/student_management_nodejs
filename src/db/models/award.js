@@ -1,5 +1,5 @@
-"use strict";
-const { Model } = require("sequelize");
+'use strict';
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Award extends Model {
     /**
@@ -10,25 +10,25 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Award.belongsTo(models.Student, {
-        foreignKey: "student_code",
-        targetKey: "student_code",
+        foreignKey: 'student_code',
+        targetKey: 'student_code',
       });
       Award.belongsTo(models.AcademicYear, {
-        foreignKey: "year_code",
-        targetKey: "year_code",
+        foreignKey: 'year_code',
+        targetKey: 'year_code',
       });
     }
   }
   Award.init(
     {
-      // student_code: DataTypes.STRING, //năm hoc 2022-2023
-      // year_code: DataTypes.STRING,
+      student_code: DataTypes.STRING, //năm hoc 2022-2023
+      year_code: DataTypes.STRING,
       award_type: DataTypes.STRING,
     },
     {
       sequelize,
-      modelName: "Award",
-    }
+      modelName: 'Award',
+    },
   );
   return Award;
 };

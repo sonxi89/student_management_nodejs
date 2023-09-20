@@ -7,7 +7,7 @@ const dateFormat = 'DD/MM/YYYY';
 const checkAward = require('./util/checkAward');
 const PAGE_SIZE = 10;
 
-class apiController {
+class studentController {
   async upload(req, res, next) {
     if (!req.file) {
       return res.status(404).json({
@@ -204,6 +204,29 @@ class apiController {
       res.status(404).json('error creating student');
     }
   }
+  //delete student
+  async delete(req, res, next) {
+    let data = await db.Student.findOne({ where: { id: req.params.id } });
+    if (data != null) {
+      db.Student.destroy({ where: { id: req.params.id } })
+        // .then(() => db.Score.destroy({ where: { student_code: data.student_code } }))
+        // .then(() => db.Award.destroy({ where: { student_code: data.student_code } }))
+        .then(() => res.status(200).json('delete student successfully'))
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json('delete student error');
+        });
+    } else {
+      res.status(404).json('Do not find student');
+    }
+  }
+  //update student
+  // async update(req, res, next) {
+  //   let data = await db.Student.findOne({ where: { id: req.params.id }});
+  //   if(data != null) {
+  //     db.Student.update
+  //   }
+  // }
 }
 
-module.exports = new apiController();
+module.exports = new studentController();

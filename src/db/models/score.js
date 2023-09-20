@@ -1,5 +1,5 @@
-"use strict";
-const { Model } = require("sequelize");
+'use strict';
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Score extends Model {
     /**
@@ -10,19 +10,19 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Score.belongsTo(models.Student, {
-        foreignKey: "student_code",
-        targetKey: "student_code",
+        foreignKey: 'student_code',
+        targetKey: 'student_code',
       });
       Score.belongsTo(models.AcademicYear, {
-        foreignKey: "year_code",
-        targetKey: "year_code",
+        foreignKey: 'year_code',
+        targetKey: 'year_code',
       });
     }
   }
   Score.init(
     {
-      // student_code: DataTypes.STRING, //năm hoc 2022-2023
-      // year_code: DataTypes.STRING,
+      student_code: DataTypes.STRING, //năm hoc 2022-2023
+      year_code: DataTypes.STRING,
       course_score_hk: DataTypes.DECIMAL(5, 2).UNSIGNED,
       course_score_tl: DataTypes.DECIMAL(5, 2).UNSIGNED,
       conduct_score: DataTypes.STRING,
@@ -31,8 +31,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Score",
-    }
+      modelName: 'Score',
+    },
   );
   return Score;
 };
