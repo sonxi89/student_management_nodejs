@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Student.hasMany(models.Score, {
         foreignKey: 'student_code',
-        targetKey: 'student_code',
+        sourceKey: 'student_code',
       });
       Student.hasMany(models.Award, {
         foreignKey: 'student_code',
-        targetKey: 'student_code',
+        sourceKey: 'student_code',
       });
     }
   }

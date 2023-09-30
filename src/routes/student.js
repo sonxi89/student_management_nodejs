@@ -5,6 +5,7 @@ const { upload } = require('../app/midlewares/uploadMidleware');
 
 router.post('/upload', upload.single('file'), studentController.upload);
 router.get('/get-users', studentController.getUser);
+router.get('/get-students', studentController.getStudent);
 router.get('/user', studentController.getUserPage);
 router.get('/awards', studentController.getAwards);
 router.post('/create', studentController.create);

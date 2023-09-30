@@ -1,5 +1,5 @@
-"use strict";
-const { Model } = require("sequelize");
+'use strict';
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class AcademicYear extends Model {
     /**
@@ -10,13 +10,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       AcademicYear.hasMany(models.Score, {
-        foreignKey: "year_code",
-        targetKey: "year_code",
+        foreignKey: 'year_code',
+        sourceKey: 'year_code',
       });
 
       AcademicYear.hasMany(models.Award, {
-        foreignKey: "year_code",
-        targetKey: "year_code",
+        foreignKey: 'year_code',
+        sourceKey: 'year_code',
       });
     }
   }
@@ -26,8 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "AcademicYear",
-    }
+      modelName: 'AcademicYear',
+    },
   );
   return AcademicYear;
 };

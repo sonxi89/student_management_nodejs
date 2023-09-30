@@ -89,6 +89,16 @@ class studentController {
       res.status(500).json({ message: 'Internal Server Error' });
     }
   }
+
+  getStudent(req, res, next) {
+    db.Student.findAll({})
+      .then((student) => {
+        res.status(200).json(student);
+      })
+      .catch((error) => {
+        res.status(500).json({ message: error });
+      });
+  }
   //phân trang
   getUserPage(req, res, next) {
     let pageNumber = parseInt(req.query.page);
@@ -120,7 +130,7 @@ class studentController {
         console.log(err);
       });
   }
-  //awards
+  //lọc theo nhiều trường
   getAwards(req, res, next) {
     let where_student = {
       [Sequelize.Op.and]: [],
@@ -209,8 +219,8 @@ class studentController {
     let data = await db.Student.findOne({ where: { id: req.params.id } });
     if (data != null) {
       db.Student.destroy({ where: { id: req.params.id } })
-        // .then(() => db.Score.destroy({ where: { student_code: data.student_code } }))
-        // .then(() => db.Award.destroy({ where: { student_code: data.student_code } }))
+        .then(() => db.Score.destroy({ where: { student_code: data.student_code } }))
+        .then(() => db.Award.destroy({ where: { student_code: data.student_code } }))
         .then(() => res.status(200).json('delete student successfully'))
         .catch((err) => {
           console.log(err);
