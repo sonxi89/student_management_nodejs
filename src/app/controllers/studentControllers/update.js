@@ -2,6 +2,8 @@ const db = require('../../../db/models/index');
 
 const updateStudent = async (req, res, next) => {
   let data = await db.Student.findOne({ where: { id: req.params.id } });
+  console.log(req.params);
+  console.log(req.body);
   if (data != null) {
     db.Student.update(
       {
@@ -17,6 +19,22 @@ const updateStudent = async (req, res, next) => {
         },
       },
     )
+      .then(() => {
+        db.Score.update(
+          {
+            student_code: req.body.student_code,
+          },
+          { where: { student_code: data.student_code } },
+        );
+      })
+      .then(() => {
+        db.Award.update(
+          {
+            student_code: req.body.student_code,
+          },
+          { where: { student_code: data.student_code } },
+        );
+      })
       .then(() => {
         return res.status(200).json({
           message: 'Update thành công sinh viên id: ' + req.params.id,

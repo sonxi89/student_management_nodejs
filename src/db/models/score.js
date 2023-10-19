@@ -13,10 +13,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'student_code',
         targetKey: 'student_code',
       });
-      Score.belongsTo(models.AcademicYear, {
-        foreignKey: 'year_code',
-        targetKey: 'year_code',
-      });
     }
   }
   Score.init(

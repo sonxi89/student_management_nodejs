@@ -1,11 +1,14 @@
 const db = require('../../../db/models/index');
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 2;
 const updateStudent = require('./update');
 const deleteStudent = require('./delete');
 const createStudent = require('./create');
 const listStudent = require('./listStudent');
 const list = require('./list');
+const deleteScore = require('./deleteScore');
 const listAwards = require('./listAwards');
+const updateScore = require('./updataScore');
+const listScore = require('./listScore');
 
 class studentController {
   //get ra tất cả bản ghi
@@ -17,36 +20,10 @@ class studentController {
   async getStudent(req, res, next) {
     await listStudent(req, res, next);
   }
-  //phân trang
-  getUserPage(req, res, next) {
-    let pageNumber = parseInt(req.query.page);
-    let offset = (pageNumber - 1) * PAGE_SIZE;
-    db.Student.findAll({
-      include: [
-        {
-          model: db.Score,
-          on: {
-            col1: db.sequelize.where(db.sequelize.col('Student.student_code'), '=', db.sequelize.col('Scores.student_code')),
-          },
-        },
-        {
-          model: db.Award,
-          on: {
-            col1: db.sequelize.where(db.sequelize.col('Student.student_code'), '=', db.sequelize.col('Awards.student_code')),
-            col2: db.sequelize.where(db.sequelize.col('Scores.year_code'), '=', db.sequelize.col('Awards.year_code')),
-          },
-        },
-      ],
-      limit: PAGE_SIZE,
-      offset: offset,
-      raw: true,
-    })
-      .then((data) => {
-        res.json(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+  //list score
+  async getScore(req, res, next) {
+    await listScore(req, res, next);
   }
   //get ra tất cả sinh viên được khen thưởng & lọc theo trường class, type, year
   async getAwards(req, res, next) {
@@ -63,6 +40,14 @@ class studentController {
   //update student
   async update(req, res, next) {
     await updateStudent(req, res, next);
+  }
+
+  async deleteScore(req, res, next) {
+    await deleteScore(req, res, next);
+  }
+
+  async updateScore(req, res, next) {
+    await updateScore(req, res, next);
   }
 }
 

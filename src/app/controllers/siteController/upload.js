@@ -30,11 +30,6 @@ const upload = async (req, res, next) => {
           },
         });
 
-        const [yearInstance, yearCreated] = await db.AcademicYear.findOrCreate({
-          where: { year_code: year },
-          defaults: {},
-        });
-
         const [scoreInstance, scoreCreated] = await db.Score.findOrCreate({
           where: { student_code: msv, year_code: year },
           defaults: {
