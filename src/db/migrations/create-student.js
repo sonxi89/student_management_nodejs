@@ -18,7 +18,13 @@ module.exports = {
       student_dob: {
         type: Sequelize.DATEONLY,
       },
-      class_code: {
+      class: {
+        type: Sequelize.STRING,
+      },
+      majors: {
+        type: Sequelize.STRING,
+      },
+      faculty: {
         type: Sequelize.STRING,
       },
       student_position: {

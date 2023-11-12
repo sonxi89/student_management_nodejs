@@ -9,11 +9,16 @@ const deleteScore = require('./deleteScore');
 const listAwards = require('./listAwards');
 const updateScore = require('./updataScore');
 const listScore = require('./listScore');
+const statistics = require('./statistics');
 
 class studentController {
   //get ra tất cả bản ghi
   async getAll(req, res, next) {
     await list(req, res, next);
+  }
+
+  async statistics(req, res, next) {
+    await statistics(req, res, next);
   }
 
   //list sinh vien

@@ -2,33 +2,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Scores', {
+    await queryInterface.createTable('Facultys', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      student_code: {
+      faculty_code: {
         type: Sequelize.STRING,
       },
-      year_code: {
+      faculty_name: {
         type: Sequelize.STRING,
-      },
-      course_score_hk: {
-        type: Sequelize.DECIMAL(5, 2).UNSIGNED,
-      },
-      course_score_tl: {
-        type: Sequelize.DECIMAL(5, 2).UNSIGNED,
-      },
-      conduct_score: {
-        type: Sequelize.STRING,
-      },
-      score_below_C_plus: {
-        type: Sequelize.INTEGER,
-      },
-      score_fail: {
-        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
@@ -41,6 +26,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Scores');
+    await queryInterface.dropTable('Facultys');
   },
 };

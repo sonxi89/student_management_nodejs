@@ -11,7 +11,9 @@ const updateStudent = async (req, res, next) => {
         student_name: req.body.student_name,
         student_dob: req.body.student_dob,
         student_position: req.body.student_position,
-        class_code: req.body.class_code,
+        class: req.body.class,
+        majors: req.body.majors,
+        faculty: req.body.faculty,
       },
       {
         where: {

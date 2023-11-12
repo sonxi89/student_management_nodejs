@@ -11,13 +11,10 @@ const createStudent = async (req, res, next) => {
         student_name: data.student_name,
         student_dob: data.student_dob,
         student_position: data.student_position,
-        class_code: data.class_code,
+        class: data.class,
+        majors: data.majors,
+        faculty: data.faculty,
       },
-    });
-
-    const [yearInstance, yearCreated] = await db.AcademicYear.findOrCreate({
-      where: { year_code: data.year_code },
-      defaults: {},
     });
 
     const [scoreInstance, scoreCreated] = await db.Score.findOrCreate({

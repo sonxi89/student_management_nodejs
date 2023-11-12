@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       course_score_hk: DataTypes.DECIMAL(5, 2).UNSIGNED,
       course_score_tl: DataTypes.DECIMAL(5, 2).UNSIGNED,
       conduct_score: DataTypes.STRING,
-      score_d: DataTypes.INTEGER,
+      score_below_C_plus: DataTypes.INTEGER,
       score_fail: DataTypes.INTEGER,
     },
     {

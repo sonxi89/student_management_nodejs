@@ -24,7 +24,9 @@ module.exports = (sequelize, DataTypes) => {
       student_code: DataTypes.STRING, //Mã SV
       student_name: DataTypes.STRING, //Tên SV
       student_dob: DataTypes.DATEONLY, //Ngày sinh
-      class_code: DataTypes.STRING, //Mã lớp
+      class: DataTypes.STRING, //Mã lớp
+      majors: DataTypes.STRING, //Mã ngành
+      faculty: DataTypes.STRING, //Mã khoa
       student_position: DataTypes.STRING, //chức vụ của SV
     },
     {
