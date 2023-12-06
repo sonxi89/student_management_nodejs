@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'student_code',
         sourceKey: 'student_code',
       });
+      Student.belongsTo(models.Class, {
+        foreignKey: 'class_name',
+        sourceKey: 'class_name',
+      });
     }
   }
   Student.init(
@@ -24,10 +28,10 @@ module.exports = (sequelize, DataTypes) => {
       student_code: DataTypes.STRING, //Mã SV
       student_name: DataTypes.STRING, //Tên SV
       student_dob: DataTypes.DATEONLY, //Ngày sinh
-      class: DataTypes.STRING, //Mã lớp
-      majors: DataTypes.STRING, //Mã ngành
-      faculty: DataTypes.STRING, //Mã khoa
-      student_position: DataTypes.STRING, //chức vụ của SV
+      class_name: DataTypes.STRING, //Mã lớp
+      majors_name: DataTypes.STRING, //
+      faculty_name: DataTypes.STRING, //
+      student_position: DataTypes.BOOLEAN, //
     },
     {
       sequelize,

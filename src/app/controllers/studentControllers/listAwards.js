@@ -1,78 +1,68 @@
-const db = require('../../../db/models/index');
-var Sequelize = require('sequelize');
+const Sequelize = require('sequelize');
 const PAGE_SIZE = 10;
+const { QueryTypes } = require('sequelize');
+const sequelize = new Sequelize('sonnguyenthai2', 'root', '', {
+  host: 'localhost',
+  dialect: 'mysql',
+});
 
 const listAwards = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
   const offset = (page - 1) * PAGE_SIZE;
-  let where_student = {
-    [Sequelize.Op.or]: [],
-  };
-
-  let where_award = {
-    [Sequelize.Op.and]: [],
-  };
+  let whereOr = '';
+  let conditions = [];
 
   if (req.query.class) {
-    where_student[Sequelize.Op.and].push({ class: req.query.class });
+    conditions.push(`Student.class_name like '%${req.query.class}%'`);
   }
   if (req.query.year) {
-    where_award[Sequelize.Op.and].push({ year_code: req.query.year });
+    conditions.push(`Award.year_code like '%${req.query.year}%'`);
   }
   if (req.query.majors) {
-    where_student[Sequelize.Op.and].push({ majors: req.query.majors });
+    conditions.push(`Student.majors_name like '%${req.query.majors}%'`);
   }
   if (req.query.faculty) {
-    where_student[Sequelize.Op.and].push({ faculty: req.query.faculty });
+    conditions.push(`Student.faculty_name like '%${req.query.faculty}%'`);
   }
   if (req.query.type) {
-    where_award[Sequelize.Op.and].push({ award_type: { [Sequelize.Op.like]: '%' + req.query.type + '%' } });
+    conditions.push(`Award.award_type like '%${req.query.type}%'`);
   }
 
-  if (req.query.search) {
-    const searchConditionStudent = {
-      [Sequelize.Op.or]: [
-        { student_name: { [Sequelize.Op.like]: `%${req.query.search}%` } },
-        { class: { [Sequelize.Op.like]: `%${req.query.search}%` } },
-        { faculty: { [Sequelize.Op.like]: `%${req.query.search}%` } },
-        { majors: { [Sequelize.Op.like]: `%${req.query.search}%` } },
-      ],
-    };
+  let whereAnd = conditions.length > 0 ? conditions.join(' and ') : '';
 
-    const searchConditionAward = {
-      [Sequelize.Op.or]: [
-        { award_type: { [Sequelize.Op.like]: `%${req.query.search}%` } },
-        { year_code: { [Sequelize.Op.like]: `%${req.query.search}%` } },
-        { student_code: { [Sequelize.Op.like]: `%${req.query.search}%` } },
-      ],
-    };
-    where_student[Sequelize.Op.or].push(searchConditionStudent);
-    where_award[Sequelize.Op.and].push(searchConditionAward);
+  if (req.query.search) {
+    whereOr += `Student.majors_name like '%${req.query.search}%'
+    or Student.faculty_name like '%${req.query.search}%'
+    or Student.student_code like '%${req.query.search}%'
+    or Student.student_name like '%${req.query.search}%'
+    or Student.class_name like '%${req.query.search}%'
+    or Award.student_code like '%${req.query.search}%'
+    or Award.year_code like '%${req.query.search}%'
+    or Award.award_type like '%${req.query.search}%'`;
+  }
+  if (whereAnd && whereOr) {
+    a = ' where (' + whereAnd + 'and (' + whereOr + '))';
+  }
+  if (whereAnd && !whereOr) {
+    a = ' where ' + whereAnd;
+  }
+
+  if (!whereAnd && whereOr) {
+    a = ' where ' + whereOr;
+  }
+
+  if (!whereAnd && !whereOr) {
+    a = '';
   }
 
   if (req.query.page) {
     try {
-      const { count, rows } = await db.Award.findAndCountAll({
-        where: where_award,
-        include: [
-          {
-            model: db.Student,
-            required: true,
-            on: {
-              col1: db.sequelize.where(db.sequelize.col('Award.student_code'), '=', db.sequelize.col('Student.student_code')),
-            },
-            where: (req.query.majors || req.query.faculty || req.query.class || req.query.search) != null ? where_student : null,
-            // where: where_student,
-          },
-        ],
-        raw: true,
-        nested: true,
-        limit: PAGE_SIZE,
-        offset,
-      });
-
+      let queryCount = 'SELECT count(Award.id) as `count` from `Award` as `Award` inner join `Student` as `Student` on`Award`.`student_code` = `Student`.`student_code`' + a + ';';
+      let queryString = 'SELECT * FROM `Award` as `Award` inner join `Student` as `Student` on`Award`.`student_code` = `Student`.`student_code`' + a + ' limit ' + offset + ',' + PAGE_SIZE;
+      const awards = await sequelize.query(queryString, { type: QueryTypes.SELECT });
+      const count = (await sequelize.query(queryCount, { type: QueryTypes.SELECT }))[0].count;
       const results = {
-        data: rows,
+        data: awards,
         pagination: {
           page,
           total: count,
@@ -84,28 +74,14 @@ const listAwards = async (req, res, next) => {
     }
   } else {
     try {
-      const { count, rows } = await db.Award.findAndCountAll({
-        where: (req.query.year || req.query.type || req.query.search) != null ? where_award : null,
-        include: [
-          {
-            model: db.Student,
-            required: true,
-            on: {
-              col1: db.sequelize.where(db.sequelize.col('Award.student_code'), '=', db.sequelize.col('Student.student_code')),
-            },
-            where: (req.query.majors || req.query.faculty || req.query.class) != null ? where_student : null,
-          },
-        ],
-        raw: true,
-        nested: true,
-      });
-
+      let queryString = 'SELECT * FROM `Award` as `Award` inner join `Student` as `Student` on`Award`.`student_code` = `Student`.`student_code`' + a;
+      const awards = await sequelize.query(queryString, { type: QueryTypes.SELECT });
       const results = {
-        data: rows,
+        data: awards,
       };
       res.status(200).json(results);
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      console.log(e);
     }
   }
 };

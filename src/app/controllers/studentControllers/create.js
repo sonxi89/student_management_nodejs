@@ -11,10 +11,23 @@ const createStudent = async (req, res, next) => {
         student_name: data.student_name,
         student_dob: data.student_dob,
         student_position: data.student_position,
-        class: data.class,
-        majors: data.majors,
-        faculty: data.faculty,
+        class_name: data.class_name,
       },
+    });
+
+    const [classInstance, classCreated] = await db.Class.findOrCreate({
+      where: { class_name: data.class_name, majors_name: data.majors_name },
+      default: {},
+    });
+
+    const [majorsInstance, majorsCreated] = await db.Majors.findOrCreate({
+      where: { majors_name: data.majors_name, faculty_name: data.faculty_name },
+      default: {},
+    });
+
+    const [facultyInstance, facultyCreated] = await db.Faculty.findOrCreate({
+      where: { faculty_name: data.faculty_name },
+      default: {},
     });
 
     const [scoreInstance, scoreCreated] = await db.Score.findOrCreate({
@@ -31,6 +44,7 @@ const createStudent = async (req, res, next) => {
     if (!scoreCreated) {
       res.status(200).json('bản ghi đã tồn tại');
     } else {
+      //fix phần khi tạo phải xét khen thưởng lại cho sinh viên đó
       checkAward(data);
       res.status(200).json('tạo thành công');
     }

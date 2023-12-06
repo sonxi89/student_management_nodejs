@@ -12,5 +12,6 @@ router.delete('/delete-score/:id', studentController.deleteScore);
 router.put('/update-score/:id', studentController.updateScore);
 router.get('/scores', studentController.getScore);
 router.get('/statistics', studentController.statistics);
+router.get('/report', studentController.report);
 
 module.exports = router;

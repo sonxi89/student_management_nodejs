@@ -1,5 +1,6 @@
 const register = require('./register');
 const login = require('./login');
+const changePassword = require('./changePassword');
 
 class authController {
   async register(req, res, next) {
@@ -8,6 +9,10 @@ class authController {
 
   async login(req, res, next) {
     await login(req, res, next);
+  }
+
+  async changePassword(req, res, next) {
+    await changePassword(req, res, next);
   }
 }
 

@@ -9,15 +9,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Faculty.hasMany(models.Major, {
-        foreignKey: 'faculty_code',
-        sourceKey: 'faculty_code',
+      Faculty.hasMany(models.Majors, {
+        foreignKey: 'faculty_name',
+        sourceKey: 'faculty_name',
       });
     }
   }
   Faculty.init(
     {
-      faculty_code: DataTypes.STRING,
       faculty_name: DataTypes.STRING,
     },
     {

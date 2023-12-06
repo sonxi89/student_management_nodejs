@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Students', {
+    await queryInterface.createTable('Student', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -18,17 +18,17 @@ module.exports = {
       student_dob: {
         type: Sequelize.DATEONLY,
       },
-      class: {
+      class_name: {
         type: Sequelize.STRING,
       },
-      majors: {
+      majors_name: {
         type: Sequelize.STRING,
       },
-      faculty: {
+      faculty_name: {
         type: Sequelize.STRING,
       },
       student_position: {
-        type: Sequelize.STRING,
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
@@ -41,6 +41,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Students');
+    await queryInterface.dropTable('Student');
   },
 };

@@ -12,7 +12,7 @@ module.exports = async function checkAward(data) {
       if (studentPosition == 1) {
         const [awardInstance, awardCreated] = await db.Award.findOrCreate({
           where: { student_code: data.student_code, year_code: data.year_code },
-          defaults: { award_type: 'SVXS, SVCĐG' },
+          defaults: { award_type: 'SVXS, SVCDG' },
         });
       } else {
         const [awardInstance, awardCreated] = await db.Award.findOrCreate({
@@ -32,7 +32,7 @@ module.exports = async function checkAward(data) {
     if (courseScore >= 3.0 && conductScore == 'XS' && studentPosition == 1) {
       const [awardInstance, awardCreated] = await db.Award.findOrCreate({
         where: { student_code: data.student_code, year_code: data.year_code },
-        defaults: { award_type: 'SVCĐG' },
+        defaults: { award_type: 'SVCDG' },
       });
     }
   }

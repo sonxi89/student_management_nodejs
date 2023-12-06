@@ -36,9 +36,8 @@ const upload = async (req, res, next) => {
       const wb = XLSX.read(file.buffer, { cellDates: true });
       const ws = wb.Sheets['Sheet1'];
       const dataStudent = XLSX.utils.sheet_to_json(ws);
-
       for (const rowData of dataStudent) {
-        console.log('Số học phần điểm C:' + rowData['Số học phần điểm C']);
+        console.log('Chức vu: ' + parseInt(rowData['Chức vụ']));
         try {
           const msv = rowData['Mã SV'];
           const year = rowData['Năm học'];
@@ -55,11 +54,26 @@ const upload = async (req, res, next) => {
             defaults: {
               student_name: rowData['Họ tên'],
               student_dob: dobFormatted,
-              student_position: parseInt(rowData['Chức vụ']),
-              class: rowData['Lớp'],
-              majors: rowData['Ngành'],
-              faculty: rowData['Khoa'],
+              student_position: rowData['Chức vụ'] != null ? true : false,
+              class_name: rowData['Lớp'],
+              majors_name: rowData['Ngành'],
+              faculty_name: rowData['Khoa'],
             },
+          });
+
+          const [classInstance, classCreated] = await db.Class.findOrCreate({
+            where: { class_name: rowData['Lớp'], majors_name: rowData['Ngành'] },
+            default: {},
+          });
+
+          const [majorsInstance, majorsCreated] = await db.Majors.findOrCreate({
+            where: { majors_name: rowData['Ngành'], faculty_name: rowData['Khoa'] },
+            default: {},
+          });
+
+          const [facultyInstance, facultyCreated] = await db.Faculty.findOrCreate({
+            where: { faculty_name: rowData['Khoa'] },
+            default: {},
           });
 
           const scoreInstance = await db.Score.findOne({

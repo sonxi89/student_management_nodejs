@@ -9,13 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      majors_code: {
-        type: Sequelize.STRING,
-      },
       majors_name: {
         type: Sequelize.STRING,
       },
-      faculty_code: {
+      faculty_name: {
         type: Sequelize.STRING,
       },
       createdAt: {
