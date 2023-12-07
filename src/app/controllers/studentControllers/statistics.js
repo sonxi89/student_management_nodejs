@@ -1,14 +1,5 @@
-const faculty = require('../../../db/models/faculty');
-const db = require('../../../db/models/index');
+const { sequelize } = require('../../../config/connectDB');
 const { QueryTypes } = require('sequelize');
-const { Op } = require('sequelize');
-
-var Sequelize = require('sequelize');
-var sequelize = new Sequelize('sonnguyenthai2', 'root', '', {
-  host: 'localhost',
-  dialect: 'mysql',
-});
-const PAGE_SIZE = 10;
 
 const statistics = async (req, res, next) => {
   const year = req.query.year;

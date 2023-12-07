@@ -1,10 +1,7 @@
-const Sequelize = require('sequelize');
+const { sequelize } = require('../../../config/connectDB');
+
 const PAGE_SIZE = 10;
 const { QueryTypes } = require('sequelize');
-const sequelize = new Sequelize('sonnguyenthai2', 'root', '', {
-  host: 'localhost',
-  dialect: 'mysql',
-});
 
 const listAwards = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;

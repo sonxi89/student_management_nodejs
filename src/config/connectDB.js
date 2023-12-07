@@ -1,17 +1,25 @@
-const { Sequelize } = require("sequelize");
+const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize("sonnguyenthai2", "root", null, {
-  host: "localhost",
-  dialect: "mysql",
+// 'sonnguyenthai2', 'root',
+const sequelize = new Sequelize({
+  database: 'sonnguyenthai2',
+  host: 'localhost',
+  dialect: 'mysql',
+  port: 3306,
+  username: 'root',
+  password: 'root',
 });
 
 async function connectDB() {
   try {
     await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
+    console.log('Connection has been established successfully.');
   } catch (error) {
-    console.error("Unable to connect to the database:", error);
+    console.error('Unable to connect to the database:', error);
   }
 }
 
-module.exports = connectDB;
+module.exports = {
+  sequelize,
+  connectDB,
+};
