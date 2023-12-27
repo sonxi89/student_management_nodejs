@@ -7,6 +7,7 @@ const listAwards = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
   const offset = (page - 1) * PAGE_SIZE;
   let whereOr = '';
+  let a;
   let conditions = [];
 
   if (req.query.class) {

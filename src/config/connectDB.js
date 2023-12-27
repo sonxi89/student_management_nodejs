@@ -8,6 +8,10 @@ const sequelize = new Sequelize({
   port: 3306,
   username: 'root',
   password: 'root',
+  // password: null,
+  define: {
+    freezeTableName: true,
+  },
 });
 
 async function connectDB() {

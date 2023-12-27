@@ -11,11 +11,16 @@ const updateScore = require('./updataScore');
 const listScore = require('./listScore');
 const statistics = require('./statistics');
 const report = require('./report');
+const dataChart = require('./dataChart');
 
 class studentController {
   //get ra tất cả bản ghi
   async getAll(req, res, next) {
     await list(req, res, next);
+  }
+
+  async getDataChart(req, res, next) {
+    await dataChart(req, res, next);
   }
 
   async report(req, res, next) {

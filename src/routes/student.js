@@ -13,5 +13,6 @@ router.put('/update-score/:id', studentController.updateScore);
 router.get('/scores', studentController.getScore);
 router.get('/statistics', studentController.statistics);
 router.get('/report', studentController.report);
+router.get('/data-chart', studentController.getDataChart);
 
 module.exports = router;

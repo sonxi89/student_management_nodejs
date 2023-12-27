@@ -24,6 +24,7 @@ const login = async (req, res) => {
         username,
         token,
       });
+      return;
     }
     res.status(400).send('Đăng nhập không thành công');
   } catch (err) {
